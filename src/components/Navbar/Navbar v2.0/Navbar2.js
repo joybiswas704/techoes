@@ -18,7 +18,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Badge from '@material-ui/core/Badge';
-import logo from '../../../assets/ecommerce.png';
 import { ShoppingCart } from '@material-ui/icons';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import StoreIcon from '@material-ui/icons/Store';

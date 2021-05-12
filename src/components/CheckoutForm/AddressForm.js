@@ -51,6 +51,7 @@ const AddressForm = ({ checkoutToken, test }) => {
 		);
 
 		setShippingOptions(options);
+		console.log('option:', shippingOptions);
 		setShippingOption(options[0].id);
 	};
 

@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-	Card,
-	CardMedia,
-	CardContent,
-	CardActions,
-	Typography,
-	IconButton,
-} from '@material-ui/core';
+import { Card, CardContent, CardActions, Typography } from '@material-ui/core';
 import useStyles from './styles';
 
 function Category({ category }) {
