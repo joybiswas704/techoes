@@ -125,15 +125,14 @@ export default function NavBar2({ totalItems }) {
 					>
 						TECHOES
 					</Typography>
-					{location.pathname === '/' ? (
-						<Link to='/cart' style={{ textDecoration: 'none', color: 'white' }}>
-							<IconButton aria-label='Show cart items' color='inherit'>
-								<Badge badgeContent={totalItems} color='secondary'>
-									<ShoppingCart />
-								</Badge>
-							</IconButton>
-						</Link>
-					) : null}
+
+					<Link to='/cart' style={{ textDecoration: 'none', color: 'white' }}>
+						<IconButton aria-label='Show cart items' color='inherit'>
+							<Badge badgeContent={totalItems} color='secondary'>
+								<ShoppingCart />
+							</Badge>
+						</IconButton>
+					</Link>
 
 					<IconButton
 						color='inherit'
@@ -181,12 +180,12 @@ export default function NavBar2({ totalItems }) {
 							<ListItemText primary={'Log In'} />
 						</ListItem>
 					</Link>
-					<Link to='products' className={classes.link}>
+					<Link to='/category' className={classes.link}>
 						<ListItem button>
 							<ListItemIcon>
 								<StoreIcon />
 							</ListItemIcon>
-							<ListItemText primary={'Products'} />
+							<ListItemText primary={'Category'} />
 						</ListItem>
 					</Link>
 					<Link to='cart' className={classes.link}>

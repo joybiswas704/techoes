@@ -6,6 +6,10 @@ import {
 	LogIn,
 	Checkout,
 	Jumbotron,
+	Categories,
+	CategorizedProducts,
+	Footer,
+	LogInCallback,
 } from './components';
 import { commerce } from './lib/commerce';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -14,15 +18,20 @@ import './App.css';
 function App() {
 	const [products, setProducts] = useState([]);
 	const [cart, setCart] = useState({});
+	const [categorires, setCategorires] = useState([]);
+	const [order, setOrder] = useState({});
+	const [errorMessage, setErrorMessage] = useState('');
 
 	const fetchProducts = async () => {
-		const { data } = await commerce.products.list({ slug: 'cpu' });
-		console.log(data);
+		const { data } = await commerce.products.list();
+
 		setProducts(data);
+		console.log(data);
 	};
 
-	const fetchCategory = () => {
-		commerce.categories.list().then((category) => console.log(category.name));
+	const fetchCategory = async () => {
+		const { data } = await commerce.categories.list();
+		setCategorires(data);
 	};
 
 	const fetchCart = async () => {
@@ -30,11 +39,11 @@ function App() {
 		setCart(cart);
 	};
 
-	// const logIn = () => {
-	// 	commerce.customer
-	// 		.login('joy.biswas704@gmail.com', 'http://localhost:3000/logIn')
-	// 		.then((token) => console.log(token));
-	// };
+	const refreshCart = async () => {
+		const newCart = await commerce.cart.refresh();
+
+		setCart(newCart);
+	};
 
 	const handleAddToCart = async (productId, quantity) => {
 		const { cart } = await commerce.cart.add(productId, quantity);
@@ -56,6 +65,21 @@ function App() {
 		setCart(cart);
 	};
 
+	const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
+		try {
+			const incomingOrder = await commerce.checkout.capture(
+				checkoutTokenId,
+				newOrder
+			);
+
+			setOrder(incomingOrder);
+
+			refreshCart();
+		} catch (error) {
+			setErrorMessage(error.data.error.message);
+		}
+	};
+
 	useEffect(() => {
 		fetchProducts();
 		fetchCart();
@@ -69,7 +93,18 @@ function App() {
 				<Switch>
 					<Route exact path='/'>
 						<Jumbotron />
-						<Products products={products} onAddToCart={handleAddToCart} />
+						{categorires.length ? (
+							<Categories categories={categorires} />
+						) : null}
+						<Footer />
+					</Route>
+					<Route path='/category/:id'>
+						{products.length ? (
+							<CategorizedProducts
+								onAddToCart={handleAddToCart}
+								products={products}
+							/>
+						) : null}
 					</Route>
 					<Route exact path='/cart'>
 						<Cart
@@ -84,6 +119,20 @@ function App() {
 					</Route>
 					<Route exact path='/login'>
 						<LogIn />
+					</Route>
+					<Route exact path='/category'>
+						<Categories categories={categorires} />
+					</Route>
+					<Route path='/checkout' exact>
+						<Checkout
+							cart={cart}
+							order={order}
+							onCaptureCheckout={handleCaptureCheckout}
+							error={errorMessage}
+						/>
+					</Route>
+					<Route path='/login/callback/:token'>
+						<LogInCallback />
 					</Route>
 				</Switch>
 			</div>

@@ -5,3 +5,7 @@ export { default as Navbar2 } from './Navbar/Navbar v2.0/Navbar2';
 export { default as LogIn } from './LogIn/LogIn';
 export { default as Checkout } from './CheckoutForm/Checkout/Checkout';
 export { default as Jumbotron } from './Jumbotron/Jumbotron';
+export { default as Categories } from './Categories/Categories';
+export { default as CategorizedProducts } from './CategorizedProducts/CategorizedProducts';
+export { default as Footer } from './Footer/Footer';
+export { default as LogInCallback } from './LogInCallback/LogInCallback';
